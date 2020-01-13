@@ -18,43 +18,72 @@ To create own instance of Heroku app:
 ```sh
 $ git clone https://github.com/LukaszKulacz/lk-desktop.git
 ```
+- remove git remote origin and add own git remote
+```sh
+$ git remote rm origin
+$ git remote add heroku **own-repository-link**
+```
+- (optionally) change all **lk-dekstop** to own **app-name**
+```sh
+app.json
+lk-dekstop/settings.py
+lk-dekstop/wsgi.py
+lk-dekstop
+manage.py
+Procfile
+```
 
-
+- push files to own repository
+```sh
+$ git push heroku master
+```
+- go back to Heroku app deployment tab
+- enable automatic deploys on some branch or manually deploy app
 
 ## Running Locally
 
-Make sure you have Python 3.7.3 [installed locally].
-To push to Heroku, you'll need to install the [Heroku CLI] (https://devcenter.heroku.com/articles/heroku-cli).
-Additionally you will need to install the [Postgres](https://devcenter.heroku.com/articles/heroku-postgresql#local-setup).
+To run project locally go to your app path.
 
+Do this steps for first time only:
 ```sh
-$ git clone https://github.com/LukaszKulacz/lk-desktop.git
-$ cd lk-desktop
-
 $ python -m venv lk-venv
-$ lk-venv\Scripts\activate
+$ lk-venv\Scripts\activate (work in CMD, not in PowerShell)
 $ pip install -r requirements.txt
 
 $ python manage.py migrate
 $ python manage.py collectstatic
+```
 
-$ heroku local -f Procfile.windows 
-$ or
+Remember to create superuser account!
+Locally:
+```sh
+$ python manage.py createsuperuser
+```
+On Heroku server (Heroku CLI required):
+```sh
+$ heroku run python manage.py createsuperuser
+```
+It is possible that you will need to specify app name
+```sh
+$ heroku run -a '**app-name**' python manage.py createsuperuser
+```
+**Finally, run server locally:**
+```sh
 $ python manage.py runserver
 ```
 
 Your app should now be running on [localhost:8000](http://localhost:8000/).
 
-## Deploying to Heroku
-
-First time deploying.
+In the next console you can test your app by (you need Firefox installed):
 ```sh
-$ git remote add heroku https://github.com/LukaszKulacz/lk-desktop.git
+$ python funcional_tests.py
 ```
+
+## Deploying to Heroku
 
 Deploy your application by just pushing it to 'public' branch.
 ```sh
-$ git push heroku public
+$ git push heroku master
 ```
 
 ## Documentation
